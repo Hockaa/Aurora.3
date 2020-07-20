@@ -170,14 +170,172 @@
 
 /obj/item/cypher
 	name = "adhomian cylinder"
-	desc = "An adhomian cylinder."
+	desc = "An adhomian cypher cylinder."
 	icon = 'icons/obj/badmoon.dmi'
 	icon_state = "cylinder"
+	var/list/possible_codes = list("Messa", "S'rendarr", "Raskara", "Kazarrhaldiye", "Almumalik", "Khazan", "Hazzimy", "Aysaif")
 	var/first_part = FALSE
 	var/second_part = FALSE
-	var/third_ptary = FALSE
+	var/third_part = FALSE
 	var/first_code
 	var/second_code
 	var/third_code
 	var/fourth_code
+
+/obj/item/cypher/attack_self(var/mob/user)
+	var/firstchoice = input(user, "Shift the first wheel.", "First Wheel") as null|anything in possible_codes
+	if(firstchoice)
+		first_code = firstchoice
+		to_chat(user, SPAN_NOTICE("You shift the first wheel to [firstchoice]"))
+
+	if(first_part)
+		var/secondchoice = input(user, "Shift the second wheel.", "Second Wheel") as null|anything in possible_codes
+		if(secondchoice)
+			second_code = secondchoice
+			to_chat(user, SPAN_NOTICE("You shift the second wheel to [secondchoice]"))
+
+	if(second_part)
+		var/thirdchoice = input(user, "Shift the third wheel.", "Third Wheel") as null|anything in possible_codes
+		if(thirdchoice)
+			first_code = thirdchoice
+			to_chat(user, SPAN_NOTICE("You shift the third wheel to [thirdchoice]"))
+
+	if(third_part)
+		var/fourthchoice = input(user, "Shift the fourth wheel.", "Fourth Wheel") as null|anything in possible_codes
+		if(fourthchoice)
+			fourth_code = fourthchoice
+			to_chat(user, SPAN_NOTICE("You shift the fourth wheel to [fourthchoice]"))
+
+/obj/item/cypher/update_icon()
+	if(first_part)
+		icon_state = "cylinder1"
+	if(second_part)
+		icon_state = "cylinder2"
+	if(third_part)
+		icon_state = "cylinder3"
+
+/obj/item/cypher/examine(var/mob/user)
+	..()
+	if(first_code)
+		to_chat(user,("The first wheel is set to [first_code]"))
+	if(second_code)
+		to_chat(user,("The second wheel is set to [second_code]"))
+	if(third_code)
+		to_chat(user,("The third wheel is set to [third_code]"))
+	if(fourth_code)
+		to_chat(user,("The fourth wheel is set to [fourth_code]"))
+
+
+/obj/item/material/knife/raskara
+	name = "twisted dagger"
+	desc = "A twisted looking dagger. It menaces with spikes of steel."
+	force_divisor = 0.4
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "dagger"
+	item_state = "dagger"
+	contained_sprite = TRUE
+	w_class = 2
+	applies_material_colour = 0
+	slot_flags = SLOT_BELT
+
+/obj/item/material/knife/raskara/pickup(mob/living/user)
+	..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.religion != RELIGION_RASKARA)
+			var/obj/item/clothing/worn_gloves = H.gloves
+			var/obj/item/clothing/worn_suit = H.wear_suit
+
+			if(worn_gloves)
+				if(worn_gloves.flags & THICKMATERIAL)
+					return
+
+			if(worn_suit)
+				if(worn_suit.flags & STOPPRESSUREDAMAGE)
+					return
+
+			if(prob(50))
+				to_chat(user, SPAN_CULT("A spike bites into your hand when you pick up \the [src]!"))
+				user.reagents.add_reagent(/datum/reagent/raskara_poison, 5)
+
+/obj/item/material/knife/raskara/attack(var/mob/target, var/mob/living/user, var/target_zone)
+	..()
+	if(prob(50))
+		if(ishuman(target))
+			var/mob/living/carbon/human/H = target
+			H.reagents.add_reagent(/datum/reagent/raskara_poison, 10)
+
+
+/datum/reagent/raskara_poison
+	name = "Nightmare Concoction"
+	description = "A mixture of Adhomian plants that can disable a target."
+	reagent_state = LIQUID
+	color = "#C8A5DC"
+	overdose = REAGENTS_OVERDOSE
+	taste_description = "acid"
+
+/datum/reagent/raskara_poison/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
+	var/mob/living/carbon/human/H = M
+	if(istype(H) && (H.species.flags & NO_BLOOD))
+		return
+	M.hallucination = max(M.hallucination, 100)
+	M.add_chemical_effect(CE_HALLUCINATE, 2)
+	M.make_jittery(5)
+	M.make_dizzy(5)
+	M.confused = rand(5,15)
+
+/obj/item/prrama
+	name = "p'rrama"
+	desc = "A plucked string Adhomian instrument, with eight strings and four holes at its end."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "prrama"
+	item_state = "prrama"
+	contained_sprite = TRUE
+	w_class = 2
+	slot_flags = SLOT_BELT
+
+/obj/item/cane/shillelagh
+	name = "adhomian shillelagh"
+	desc = "A cane used by the members of the kin of S’rendarr."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "shillelagh"
+	item_state = "shillelagh"
+	force = 20
+
+/obj/item/cane/shillelagh/handle_shield(mob/user, var/on_back, var/damage, atom/damage_source = null, mob/attacker = null, var/def_zone = null, var/attack_text = "the attack")
+	if(default_parry_check(user, attacker, damage_source) && prob(40))
+		user.visible_message("<span class='danger'>\The [user] parries [attack_text] with \the [src]!</span>")
+		playsound(user.loc, 'sound/weapons/bladeparry.ogg', 50, 1)
+		return 1
+	return 0
+
+
+/obj/item/adhomian_egg
+	name = "adhomian jewelled egg"
+	desc = "An adhomian jewelry in the shape of an egg. It is made of rare metals and covered in precious stones."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "egg"
+	item_state = "egg"
+	w_class = 2
+
+/obj/item/reagent_containers/food/snacks/adhomian_sausage
+	name = "fatshouters bloodpudding"
+	desc = "A mixture of fatshouters meat, offal, blood and blizzard ears flour."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "adhomian_sausage"
+	filling_color = "#DB0000"
+	bitesize = 2
+
+	reagents_to_add = list(/datum/reagent/nutriment/protein = 12)
+
+
+/obj/item/reagent_containers/food/snacks/fermented_worm
+	name = "fermented hma'trra"
+	desc = "A larged piece of fermented glacier worm meat."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "fermented_worm"
+	filling_color = "#DB0000"
+	bitesize = 2
+
+	reagents_to_add = list(/datum/reagent/nutriment/protein/seafood = 20, datum/reagent/ammonia = 2)
 
