@@ -17,17 +17,16 @@
 
 /obj/item/gun/projectile/revolver/detective/knife
 	name = "knife-revolver"
-	desc = "AAn adhomian revolver with a blade attached to its barrel."
+	desc = "An adhomian revolver with a blade attached to its barrel."
 	icon = 'icons/obj/badmoon.dmi'
 	icon_state = "knifegun"
 	item_state = "knifegun"
-	contained_sprite = TRUE
 	force = 20
 	sharp = TRUE
 	edge = TRUE
 
 /obj/item/gun/projectile/musket
-	name = "adhomai musket"
+	name = "adhomian musket"
 	desc = "A rustic firearm, used by Tajaran soldiers during the adhomian gunpowder age"
 	icon = 'icons/obj/badmoon.dmi'
 	icon_state = "musket"

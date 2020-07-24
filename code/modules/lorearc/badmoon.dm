@@ -187,24 +187,32 @@
 	if(firstchoice)
 		first_code = firstchoice
 		to_chat(user, SPAN_NOTICE("You shift the first wheel to [firstchoice]"))
+		playsound(loc, 'sound/items/penclick.ogg', 50, 1)
 
 	if(first_part)
 		var/secondchoice = input(user, "Shift the second wheel.", "Second Wheel") as null|anything in possible_codes
 		if(secondchoice)
 			second_code = secondchoice
 			to_chat(user, SPAN_NOTICE("You shift the second wheel to [secondchoice]"))
+			playsound(loc, 'sound/items/penclick.ogg', 50, 1)
 
 	if(second_part)
 		var/thirdchoice = input(user, "Shift the third wheel.", "Third Wheel") as null|anything in possible_codes
 		if(thirdchoice)
-			first_code = thirdchoice
+			third_code = thirdchoice
 			to_chat(user, SPAN_NOTICE("You shift the third wheel to [thirdchoice]"))
+			playsound(loc, 'sound/items/penclick.ogg', 50, 1)
 
 	if(third_part)
 		var/fourthchoice = input(user, "Shift the fourth wheel.", "Fourth Wheel") as null|anything in possible_codes
 		if(fourthchoice)
 			fourth_code = fourthchoice
 			to_chat(user, SPAN_NOTICE("You shift the fourth wheel to [fourthchoice]"))
+			playsound(loc, 'sound/items/penclick.ogg', 50, 1)
+
+/obj/item/cypher/Initialize()
+	. = ..()
+	update_icon()
 
 /obj/item/cypher/update_icon()
 	if(first_part)
@@ -225,6 +233,60 @@
 	if(fourth_code)
 		to_chat(user,("The fourth wheel is set to [fourth_code]"))
 
+/obj/item/cypher/attackby(obj/item/W as obj, mob/user as mob)
+
+	if(istype(W, /obj/item/cypher_part_one))
+		if(!first_part)
+			first_part = TRUE
+			qdel(W)
+			update_icon()
+			to_chat(user,("You add a part to \the [src]"))
+
+
+	if(istype(W, /obj/item/cypher_part_two))
+		if(!second_part)
+			second_part = TRUE
+			qdel(W)
+			update_icon()
+			to_chat(user,("You add a part to \the [src]"))
+
+	if(istype(W, /obj/item/cypher_part_three))
+		if(!third_part)
+			third_part = TRUE
+			qdel(W)
+			update_icon()
+			to_chat(user,("You add a part to \the [src]"))
+
+
+/obj/item/cypher/first
+	first_part = TRUE
+
+/obj/item/cypher/second
+	first_part = TRUE
+	second_part = TRUE
+
+/obj/item/cypher/complete
+	first_part = TRUE
+	second_part = TRUE
+	third_part = TRUE
+
+/obj/item/cypher_part_one
+	name = "adhomian cylinder part"
+	desc = "An adhomian cypher cylinder part."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "piece1"
+
+/obj/item/cypher_part_two
+	name = "adhomian cylinder part"
+	desc = "An adhomian cypher cylinder part."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "piece2"
+
+/obj/item/cypher_part_three
+	name = "adhomian cylinder part"
+	desc = "An adhomian cypher cylinder part."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "piece3"
 
 /obj/item/material/knife/raskara
 	name = "twisted dagger"
@@ -284,22 +346,13 @@
 	M.make_dizzy(5)
 	M.confused = rand(5,15)
 
-/obj/item/prrama
-	name = "p'rrama"
-	desc = "A plucked string Adhomian instrument, with eight strings and four holes at its end."
-	icon = 'icons/obj/badmoon.dmi'
-	icon_state = "prrama"
-	item_state = "prrama"
-	contained_sprite = TRUE
-	w_class = 2
-	slot_flags = SLOT_BELT
-
 /obj/item/cane/shillelagh
 	name = "adhomian shillelagh"
 	desc = "A cane used by the members of the kin of S’rendarr."
 	icon = 'icons/obj/badmoon.dmi'
 	icon_state = "shillelagh"
 	item_state = "shillelagh"
+	contained_sprite = TRUE
 	force = 20
 
 /obj/item/cane/shillelagh/handle_shield(mob/user, var/on_back, var/damage, atom/damage_source = null, mob/attacker = null, var/def_zone = null, var/attack_text = "the attack")
@@ -337,5 +390,50 @@
 	filling_color = "#DB0000"
 	bitesize = 2
 
-	reagents_to_add = list(/datum/reagent/nutriment/protein/seafood = 20, datum/reagent/ammonia = 2)
+	reagents_to_add = list(/datum/reagent/nutriment/protein/seafood = 20, /datum/reagent/ammonia = 2)
 
+
+/obj/item/eguitar
+	name = "eletronic guitar"
+	desc = "A traditional human eletronic guitar."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "eguitar"
+	item_state = "eguitar"
+	contained_sprite = TRUE
+	w_class = 2
+	force = 10
+
+/obj/item/bass
+	name = "adhomian bass"
+	desc = "A traditional adhomian bass."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "guitar"
+	item_state = "guitar"
+	contained_sprite = TRUE
+	w_class = 2
+	force = 10
+
+/obj/structure/eletronic_drum
+	name = "eletronic drums"
+	desc = "An advanced drums simulator."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "synthesizer"
+	anchored = TRUE
+	density = TRUE
+
+/obj/item/prrama
+	name = "p'rrama"
+	desc = "A plucked string Adhomian instrument, with eight strings and four holes at its end."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "prrama"
+	item_state = "prrama"
+	contained_sprite = TRUE
+	w_class = 2
+	slot_flags = SLOT_BELT
+	force = 10
+
+/obj/item/clothing/accessory/kin_srendarr
+	name = "holy sun rosette"
+	desc = "A simple rosette accessory depicting the Tajaran god S'rendarr."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "rosette"
