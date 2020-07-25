@@ -431,6 +431,22 @@
 	w_class = 2
 	slot_flags = SLOT_BELT
 	force = 10
+	var/recharging = FALSE
+
+/obj/item/prrama/attack_self(mob/user as mob)
+	if(recharging)
+		return
+	if(user.name == "Mih")
+		var/choice = input(user, "Play the song?", "Adhomian Metal") as null|anything in list("Yes", "No")
+		if(choice == "Yes")
+			playsound(loc, 'sound/music/Song3.ogg', 100, 1)
+			recharging = TRUE
+			addtimer(CALLBACK(src, .proc/rearm), 90 SECONDS)
+
+	return
+
+/obj/item/prrama/proc/rearm()
+	recharging = FALSE
 
 /obj/item/clothing/accessory/kin_srendarr
 	name = "holy sun rosette"
