@@ -186,3 +186,44 @@
 /datum/hallucination/mirage/narsie/generate_mirage()
 	var/image/T = image('icons/obj/narsie.dmi', "narsie-small-chains", layer = MOB_LAYER+0.01)
 	return T
+
+/datum/hallucination/mirage/raskara
+	min_power = HAL_POWER_LOW
+	max_power = INFINITY
+	number = 1
+
+/datum/hallucination/mirage/raskara/generate_mirage()
+	var/image/T = image('icons/obj/badmoon.dmi', "cultist", layer = MOB_LAYER+0.01)
+	return T
+
+/datum/hallucination/mirage/angler
+	min_power = HAL_POWER_LOW
+	max_power = INFINITY
+	number = 3
+
+/datum/hallucination/mirage/angler/start()
+	addtimer(CALLBACK(src, .proc/buzz), rand(15, 20))
+	..()
+
+/datum/hallucination/mirage/angler/proc/buzz()
+	to_chat(holder, "<b>The abyssal horror</b> gurgles at [holder].")
+
+/datum/hallucination/mirage/angler/generate_mirage()
+	var/image/T = image('icons/obj/badmoon.dmi', "angler", layer = MOB_LAYER+0.01)
+	return T
+
+/datum/hallucination/mirage/worm
+	min_power = HAL_POWER_LOW
+	max_power = INFINITY
+	number = 1
+
+/datum/hallucination/mirage/worm/start()
+	addtimer(CALLBACK(src, .proc/buzz), rand(15, 20))
+	..()
+
+/datum/hallucination/mirage/worm/generate_mirage()
+	var/image/T = image('icons/obj/badmoon.dmi', "bloodworm", layer = MOB_LAYER+0.01)
+	return T
+
+/datum/hallucination/mirage/worm/proc/buzz()
+	to_chat(holder, "<b>The blood worm</b> growls at [holder].")

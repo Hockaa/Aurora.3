@@ -442,7 +442,7 @@
 			message = pick(phrases)
 			to_chat(holder,"<span class='game say'><B>[talker]</B> [talker.say_quote(message)], <span class='message'><span class='body'>\"[message]\"</span></span></span>")
 		else	//More varied messages using text list and different speech prefixes
-			
+
 			//message prep
 			var/speak_prefix = pick("Hey", "Uh", "Um", "Oh", "Ah", "")		//For variety, we have a different greeting. This one has a chance of picking a starter....
 			speak_prefix = "[speak_prefix][pick(names)][pick(".","!","?")]"		//...then adds the name, and ends it randomly with ., !, or ? ("Hey, name?" "Oh, name!" "Ah, name." "Name!"") etc.
@@ -488,6 +488,18 @@
 
 /datum/hallucination/whisper/no_entity/start()
 	var/list/whisper_candidates = list("A familiar voice", "A distant voice", "A child's voice", "Something inside your head", "Your own voice", "A ghastly voice")
+	to_chat(holder, "<B>[pick(whisper_candidates)]</B> whispers directly into your mind, <I>\"[pick(SShallucinations.hallucinated_phrases)]\"</I>")
+	sound_to(holder, pick('sound/hallucinations/behind_you1.ogg', 'sound/hallucinations/behind_you2.ogg', 'sound/hallucinations/i_see_you1.ogg', 'sound/hallucinations/i_see_you2.ogg', 'sound/hallucinations/turn_around1.ogg', 'sound/hallucinations/turn_around2.ogg'))
+	holder.emote("me",1,"shivers.")
+
+/datum/hallucination/whisper/premonitions
+	min_power = HAL_POWER_LOW
+
+/datum/hallucination/whisper/premonitions/can_affect(mob/living/carbon/C)
+	return ..()
+
+/datum/hallucination/whisper/premonitions/start()
+	var/list/whisper_candidates = list("The Whisperer", "The Black Mirror", "The Stranger", "The Door and Key", "The Stranger One", "The Maggot Father")
 	to_chat(holder, "<B>[pick(whisper_candidates)]</B> whispers directly into your mind, <I>\"[pick(SShallucinations.hallucinated_phrases)]\"</I>")
 	sound_to(holder, pick('sound/hallucinations/behind_you1.ogg', 'sound/hallucinations/behind_you2.ogg', 'sound/hallucinations/i_see_you1.ogg', 'sound/hallucinations/i_see_you2.ogg', 'sound/hallucinations/turn_around1.ogg', 'sound/hallucinations/turn_around2.ogg'))
 	holder.emote("me",1,"shivers.")

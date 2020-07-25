@@ -289,7 +289,7 @@
 	icon_state = "piece3"
 
 /obj/item/material/knife/raskara
-	name = "twisted dagger"
+	name = "dagger"
 	desc = "A twisted looking dagger. It menaces with spikes of steel."
 	force_divisor = 0.4
 	icon = 'icons/obj/badmoon.dmi'
@@ -335,6 +335,7 @@
 	color = "#C8A5DC"
 	overdose = REAGENTS_OVERDOSE
 	taste_description = "acid"
+	fallback_specific_heat = 0.75
 
 /datum/reagent/raskara_poison/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
 	var/mob/living/carbon/human/H = M
