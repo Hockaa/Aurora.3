@@ -2,7 +2,7 @@
 	name = "creature"
 	desc = ""
 	speak_emote = list("roars")
-	icon = 'icons/mob/npc/geist.dmi'
+	icon = 'icons/obj/geist.dmi'
 	icon_state = "geist"
 	icon_living = "geist"
 	icon_dead = "geist_dead"
@@ -13,7 +13,10 @@
 	mob_swap_flags = HUMAN|SIMPLE_ANIMAL|SLIME|MONKEY
 	mob_push_flags = ALLMOBS
 
+
 	tameable = FALSE
+
+	speed = -4
 
 	response_help  = "pets"
 	response_disarm = "shoves"
@@ -23,28 +26,30 @@
 	harm_intent_damage = 0
 	melee_damage_lower = 45
 	melee_damage_upper = 45
-	resist_mod = 3
 	mob_size = 25
 	environment_smash = 2
-	attacktext = "mangled"
+	attacktext = "mauled"
 
 	see_in_dark = 8
 	see_invisible = SEE_INVISIBLE_NOLIGHTING
 
-	minbodytemp = 0
-	maxbodytemp = 350
-	min_oxy = 0
-	max_co2 = 0
-	max_tox = 0
+	butchering_products = list(/obj/item/stack/material/animalhide = 4)
+	meat_type = /obj/item/reagent_containers/food/snacks/meat/adhomai
+	meat_amount = 15
+
+	attack_sound = 'sound/effects/creatures/demon_attack.ogg'
+
+	pixel_x = -16
+	pixel_y = -16
 
 	var/is_devouring = FALSE
 
 /mob/living/simple_animal/hostile/geist/examine(mob/user)
 	. = ..()
 	if(istajara(user))
-		to_chat(user, ("An terrible monster, its description matches the tales involving cavern geists."))
+		to_chat(user, ("A terrible monster, its description matches the tales about cavern geists."))
 	else
-		to_chat(user, ("An unknown creature, something pulled straight from a nightmare"))
+		to_chat(user, ("An unknown creature, something pulled straight from a nightmare."))
 
 /mob/living/simple_animal/hostile/geist/Life()
 	..()
@@ -101,3 +106,37 @@
 	last_special = world.time + 100
 	src.is_devouring = FALSE
 	return
+
+
+/mob/living/simple_animal/hostile/wind_devil
+	name = "sham'tyr"
+	desc = "A flying adhomian creature, known for their loud wails that can be heard far below the clouds they soar above."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "devil"
+	icon_living = "devil"
+	icon_dead = "devil_dead"
+	icon_rest = "devil_rest"
+	turns_per_move = 3
+	response_help = "pets the"
+	response_disarm = "gently pushes aside the"
+	response_harm = "hits the"
+	speed = -4
+	maxHealth = 80
+	health = 80
+	mob_size = 4
+
+	pass_flags = PASSTABLE
+
+	harm_intent_damage = 5
+	melee_damage_lower = 15
+	melee_damage_upper = 15
+	attacktext = "bitten"
+	attack_sound = 'sound/weapons/bite.ogg'
+
+	environment_smash = 1
+
+	faction = "geist"
+	flying = TRUE
+	butchering_products = list(/obj/item/stack/material/animalhide = 1)
+	meat_type = /obj/item/reagent_containers/food/snacks/meat/adhomai
+	meat_amount = 5

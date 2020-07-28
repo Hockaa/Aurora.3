@@ -1,5 +1,3 @@
-//first event
-
 /obj/machinery/vending/casino
 	name = "grand romanovich vending machine"
 	desc = "A vending machine commonly found in Crevus casinos."
@@ -365,12 +363,60 @@
 
 
 /obj/item/adhomian_egg
-	name = "adhomian jewelled egg"
-	desc = "An adhomian jewelry in the shape of an egg. It is made of rare metals and covered in precious stones."
+	name = "adhomian fortune-telling mechanism"
+	desc = "An adhomian jewelry in the shape of an egg. It is made of rare metals and covered in precious stones. A faint ticking sound can be heard inside of it."
 	icon = 'icons/obj/badmoon.dmi'
 	icon_state = "egg"
 	item_state = "egg"
 	w_class = 2
+
+	var/on_cooldown = FALSE
+	var/mob/living/simple_animal/speaker
+
+/obj/item/adhomian_egg/Initialize()
+	. = ..()
+	speaker = new /mob/living/ (src)
+	speaker.alpha = 0
+	speaker.density = 0
+	speaker.mouse_opacity = 0
+	speaker.name = "Adhomian fortune-telling mechanism"
+	speaker.add_language(LANGUAGE_SIIK_MAAS)
+	speaker.set_default_language(LANGUAGE_SIIK_MAAS)
+	speaker.universal_speak = TRUE
+	speaker.universal_understand = TRUE
+	speaker.speak_emote = list("says")
+
+/obj/item/adhomian_egg/attack_self(mob/user)
+
+	if(on_cooldown)
+		to_chat(user, "<span class='warning'>\The [src] was spoken to recently, it needs time to rest.</span>")
+		return
+
+	var/query = sanitize(input(user,"What is your question?", "Adhomian Fortune-telling Mechanism") as text|null)
+
+	if(!query)
+		return
+
+	query = sanitize(query)
+
+	user.visible_message("<span class='notice'>\The [user] whispers something to \the [src].</span>", "<span class='notice'>You whisper a question to \the [src].</span>", "You hear a ticking sound.")
+
+	on_cooldown = TRUE
+
+	ask_question(user, query)
+
+/obj/item/adhomian_egg/proc/ask_question(var/mob, var/question)
+	for(var/mob/O in player_list)
+		if(O.key == "Alberyk")
+			to_chat(O, SPAN_WARNING("[mob] asked: [question]"))
+			var/input = input(O, "Answer the question.", "Voice of the egg", "")
+			if(input)
+				speaker.say("[input]")
+
+				addtimer(CALLBACK(src, .proc/clear_cooldown), 1 MINUTE)
+
+/obj/item/adhomian_egg/proc/clear_cooldown()
+	on_cooldown = FALSE
 
 /obj/item/reagent_containers/food/snacks/adhomian_sausage
 	name = "fatshouters bloodpudding"
@@ -454,3 +500,26 @@
 	desc = "A simple rosette accessory depicting the Tajaran god S'rendarr."
 	icon = 'icons/obj/badmoon.dmi'
 	icon_state = "rosette"
+
+/obj/item/clothing/under/archeologist
+	name = "archeologist uniform"
+	desc = "A sturdy archeologist uniform."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "explorer_uniform"
+	item_state = "explorer_uniform"
+
+/obj/item/clothing/suit/storage/archeologist
+	name = "archeologist jacket"
+	desc = "A sturdy archeologist jacket."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "explorer_uniform"
+	item_state = "explorer_uniform"
+	armor = list(melee = 25, bullet = 10, laser = 10, energy = 10, bomb = 5, bio = 0, rad = 0)
+
+/obj/item/clothing/head/archeologist
+	name = "archeologist hat"
+	desc = "A sturdy archeologist hat."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "explorer_hat"
+	item_state = "explorer_hat"
+	armor = list(melee = 25, bullet = 10, laser = 10, energy = 10, bomb = 5, bio = 0, rad = 0)
