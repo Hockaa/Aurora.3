@@ -364,7 +364,7 @@
 
 /obj/item/adhomian_egg
 	name = "adhomian fortune-telling mechanism"
-	desc = "An adhomian jewelry in the shape of an egg. It is made of rare metals and covered in precious stones. A faint ticking sound can be heard inside of it."
+	desc = "An adhomian jewelry in the shape of an egg. It is made of rare metals and covered by precious stones. A faint ticking sound can be heard inside of it."
 	icon = 'icons/obj/badmoon.dmi'
 	icon_state = "egg"
 	item_state = "egg"
@@ -441,9 +441,9 @@
 	icon = 'icons/obj/badmoon.dmi'
 	icon_state = "fermented_worm"
 	filling_color = "#DB0000"
-	bitesize = 2
+	bitesize = 4
 
-	reagents_to_add = list(/datum/reagent/nutriment/protein/seafood = 20, /datum/reagent/ammonia = 2)
+	reagents_to_add = list(/datum/reagent/nutriment/protein/seafood = 20, /datum/reagent/ammonia = 10)
 
 /obj/item/eguitar
 	name = "eletronic guitar"

@@ -2,18 +2,28 @@
 	name = "adhomian automatic rifle"
 	desc = "The Tsarrayut'yan rifle is a select-fire, crew-served automatic rifle producted by the People's Republic of Adhomai."
 	icon = 'icons/obj/badmoon.dmi'
-	icon_state = "automatic"
-	item_state = "automatic"
+	icon_state = "tsarrayut"
+	item_state = "tsarrayut"
 	contained_sprite = TRUE
 
 	load_method = SINGLE_CASING|SPEEDLOADER
 
 	ammo_type = /obj/item/ammo_casing/a762
-
+	allowed_magazines = null
+	magazine_type = null
 	max_shells = 25
 
 	origin_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 2)
 	fire_sound = 'sound/weapons/gunshot/gunshot_rifle.ogg'
+
+	is_wieldable = TRUE
+
+/obj/item/gun/projectile/automatic/rifle/adhomian/update_icon()
+	if(wielded)
+		item_state = "tsarrayut-wielded"
+	else
+		item_state = "tsarrayut"
+	update_held_icon()
 
 /obj/item/gun/projectile/revolver/detective/knife
 	name = "knife-revolver"
