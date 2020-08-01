@@ -534,8 +534,9 @@
 	desc = "A replica of a suit of armor used by the traditional warriors of Amohda."
 
 /obj/item/clothing/head/helmet/tajara/replica
-	name = "amohdan swordsmen helmet replace"
+	name = "amohdan swordsmen helmet replica"
 	desc = "A replica of a helmet used by the traditional warriors of Amohda."
 
 /obj/item/material/sword/amohdan_sword/replica
+	name = "amohdan blade replica"
 	force_divisor = 0.1
