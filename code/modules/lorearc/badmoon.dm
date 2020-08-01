@@ -415,6 +415,13 @@
 
 				addtimer(CALLBACK(src, .proc/clear_cooldown), 1 MINUTE)
 
+/obj/item/eightball/haunted/adhomai
+	name = "adhomian fortune-telling mechanism"
+	desc = "A toy replica of the adhomian fortune-telling mechanism."
+	icon = 'icons/obj/badmoon.dmi'
+	icon_state = "egg"
+	item_state = "egg"
+
 /obj/item/adhomian_egg/proc/clear_cooldown()
 	on_cooldown = FALSE
 
@@ -428,7 +435,6 @@
 
 	reagents_to_add = list(/datum/reagent/nutriment/protein = 12)
 
-
 /obj/item/reagent_containers/food/snacks/fermented_worm
 	name = "fermented hma'trra"
 	desc = "A larged piece of fermented glacier worm meat."
@@ -438,7 +444,6 @@
 	bitesize = 2
 
 	reagents_to_add = list(/datum/reagent/nutriment/protein/seafood = 20, /datum/reagent/ammonia = 2)
-
 
 /obj/item/eguitar
 	name = "eletronic guitar"
@@ -523,3 +528,14 @@
 	icon_state = "explorer_hat"
 	item_state = "explorer_hat"
 	armor = list(melee = 25, bullet = 10, laser = 10, energy = 10, bomb = 5, bio = 0, rad = 0)
+
+/obj/item/clothing/suit/armor/tajara/replica
+	name = "amohdan swordsmen armor replica"
+	desc = "A replica of a suit of armor used by the traditional warriors of Amohda."
+
+/obj/item/clothing/head/helmet/tajara/replica
+	name = "amohdan swordsmen helmet replace"
+	desc = "A replica of a helmet used by the traditional warriors of Amohda."
+
+/obj/item/material/sword/amohdan_sword/replica
+	force_divisor = 0.1

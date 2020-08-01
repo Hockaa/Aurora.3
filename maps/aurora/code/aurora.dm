@@ -8,7 +8,7 @@
 	path = "aurora"
 
 	lobby_icons = list('icons/misc/titlescreens/aurora/badmoon.dmi')
-	lobby_transitions = 10 SECONDS
+//	lobby_transitions = 10 SECONDS
 
 	station_levels = list(2, 3, 4, 5, 6, 7)
 	admin_levels = list(1)
