@@ -78,6 +78,11 @@
 		return ..()
 	if (istype(src, /obj/machinery/atmospherics/pipe/vent))
 		return ..()
+	
+	if ((istype(W, /obj/item/device/analyzer)) && get_dist(user, src) <= 1)
+		var/obj/item/device/analyzer/A = W
+		A.analyze_gases(src, user)
+		return 0
 
 	if(istype(W,/obj/item/device/pipe_painter))
 		return 0
